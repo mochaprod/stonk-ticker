@@ -1,14 +1,9 @@
 {
-  "name": "lib-template",
-  "version": "1.0.0-alpha.1",
-  "description": "Small webpack template ready for development",
+  "description": "Stock price display for React",
   "scripts": {
-    "start:dev": "webpack-dev-server --config ./config/dev.webpack.config.js"
+    "start:dev": "webpack-dev-server --config ./config/dev.webpack.config.js",
+    "build": "webpack --config ./config/dev.webpack.config.js"
   },
-  "keywords": [
-    "react",
-    "template"
-  ],
   "author": "Ben Huang",
   "license": "MIT",
   "devDependencies": {
@@ -16,12 +11,18 @@
     "@types/react-dom": "^16.9.8",
     "@typescript-eslint/eslint-plugin": "^2.34.0",
     "@typescript-eslint/parser": "^2.34.0",
+    "clsx": "^1.1.0",
+    "css-loader": "^3.5.3",
     "dotenv-webpack": "^1.8.0",
     "eslint": "^6.8.0",
     "eslint-config-squirrels-typescript": "^1.0.1",
     "eslint-plugin-react": "^7.20.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.0.1",
+    "mini-css-extract-plugin": "^0.9.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
     "terser-webpack-plugin": "^3.0.1",
     "ts-loader": "^7.0.4",
     "webpack": "^4.43.0",

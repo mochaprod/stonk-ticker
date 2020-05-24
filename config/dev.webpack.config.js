@@ -5,6 +5,28 @@ const paths = require("./paths");
 const USE_PROD = process.env.NODE_ENV === "production";
 const ROOT = path.join("examples");
 
+const CSS_REGEX = /\.s?css$/;
+const CSS_MODULES_REGEX = /\.mod\.s?css$/;
+
+const styleLoaders = (modules = false) => {
+    return [
+        "style-loader",
+        {
+            loader: "css-loader",
+            options: {
+                modules,
+                sourceMap: !USE_PROD,
+            },
+        },
+        {
+            loader: "sass-loader",
+            options: {
+                sourceMap: !USE_PROD,
+            },
+        },
+    ];
+};
+
 /**
  * Webpack config for development server/examples SPA.
  */
@@ -20,9 +42,24 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.tsx?$/,
+                test: /\.tsx?$/,
                 loader: "ts-loader",
             },
+            {
+                test: CSS_MODULES_REGEX,
+                use: styleLoaders(true),
+            },
+            {
+                test: CSS_REGEX,
+                exclude: CSS_MODULES_REGEX,
+                use: styleLoaders(),
+            },
+        ],
+    },
+    resolve: {
+        extensions: [
+            ".tsx", ".ts", ".js", ".jsx", ".json",
+            ".scss", ".css",
         ],
     },
     plugins: [
@@ -32,9 +69,10 @@ module.exports = {
         }),
     ],
     devServer: {
-        contentBase: "/examples/public",
+        contentBase: "./examples/public",
         publicPath: paths.publicPath,
         port: 8888,
+        host: "0.0.0.0",
         compress: true,
         watchContentBase: true,
         hot: true,
