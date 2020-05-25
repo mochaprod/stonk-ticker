@@ -45,19 +45,23 @@ const Rollup: React.FC<RollupProps> = ({
 
     useEffect(
         () => {
-            if (transitioning) {
-                return;
-            }
+            let timeout: number;
 
-            const frame = requestAnimationFrame(() => {
+            const frame = window.requestAnimationFrame(() => {
                 setTransitioning(true);
 
-                setTimeout(() => {
+                timeout = window.setTimeout(() => {
                     setTransitioning(false);
                 }, 500);
             });
 
-            return () => cancelAnimationFrame(frame);
+            return () => {
+                window.cancelAnimationFrame(frame);
+
+                if (timeout) {
+                    window.clearTimeout(timeout);
+                }
+            };
         },
         [value],
     );
