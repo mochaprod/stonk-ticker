@@ -1,5 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 const paths = require("./paths");
 
 const USE_PROD = process.env.NODE_ENV === "production";
@@ -10,7 +12,7 @@ const CSS_MODULES_REGEX = /\.mod\.s?css$/;
 
 const styleLoaders = (modules = false) => {
     return [
-        "style-loader",
+        USE_PROD ? MiniCssExtractPlugin.loader : "style-loader",
         {
             loader: "css-loader",
             options: {
@@ -37,7 +39,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "build.js",
-        publicPath: "/",
+        publicPath: "/stonk-ticker/",
     },
     module: {
         rules: [
@@ -66,6 +68,9 @@ module.exports = {
         new HtmlWebpackPlugin({
             inject: true,
             template: paths.indexHtml,
+        }),
+        new MiniCssExtractPlugin({
+            filename: "[name].[contenthash:8].css",
         }),
     ],
     devServer: {

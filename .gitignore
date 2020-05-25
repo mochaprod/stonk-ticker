@@ -9,6 +9,8 @@
 # testing
 /coverage
 
+lib/
+
 types/
 
 # production

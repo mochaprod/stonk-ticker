@@ -1,7 +1,8 @@
-
-# Stonk Ticker
+# Stonk Ticker [![npm](https://img.shields.io/npm/v/stonk-ticker)](https://npmjs.com/package/stonk-ticker)
 
 Price ticker from Robinhood for React apps
+
+[See it in action](https://tasksquirrel.github.io/stonk-ticker/)
 
 ## Install
 
@@ -43,10 +44,10 @@ function App() {
 
 ## Props
 
-|Prop|Type||
-|---|---|---|
-|`value`|`string | number`||
-|`direction`|`"up" | "down"`|Determines text color for text that changes|
-|`dictionary`|`string[]`|The set of characters the ticker cycles through. Default dictionary covers characters for USD money representation|
-|`constants`|`string[]`|Characters that stay constant, but left-relative to the string ($) for example in a USD string.|
-|`colors`|`string[]`|First element is the color of text for an `up` movement, and the second element is the `down` color|
+| Prop         | Type              |                                                                                                                    |
+| ------------ | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `value`      | `string | number` | Display value                                                                                                      |
+| `direction`  | `"up" | "down"`   | Determines text color for text that changes                                                                        |
+| `dictionary` | `string[]`        | The set of characters the ticker cycles through. Default dictionary covers characters for USD money representation |
+| `constants`  | `string[]`        | Characters that stay constant, but left-relative to the string (\$) for example in a USD string.                   |
+| `colors`     | `string[]`        | First element is the color of text for an `up` movement, and the second element is the `down` color                |
