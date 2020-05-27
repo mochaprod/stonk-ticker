@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import { domExists } from "./utils";
+
 interface RollupProps {
+    widthRef: (node: HTMLDivElement) => void;
+    setHeight: (height: number) => void;
     value: string;
     direction?: "up" | "down";
     speed: number;
@@ -9,6 +13,8 @@ interface RollupProps {
 }
 
 const Rollup: React.FC<RollupProps> = ({
+    widthRef,
+    setHeight,
     value,
     direction,
     speed,
@@ -26,6 +32,7 @@ const Rollup: React.FC<RollupProps> = ({
 
     const containerStyle: React.CSSProperties = {
         position: "relative",
+        overflow: "hidden",
     };
 
     const valueStyle: React.CSSProperties = {
@@ -45,6 +52,10 @@ const Rollup: React.FC<RollupProps> = ({
 
     useEffect(
         () => {
+            if (!domExists()) {
+                return;
+            }
+
             let timeout: number;
 
             const frame = window.requestAnimationFrame(() => {
@@ -52,11 +63,13 @@ const Rollup: React.FC<RollupProps> = ({
 
                 timeout = window.setTimeout(() => {
                     setTransitioning(false);
-                }, 500);
+                }, speed);
             });
 
             return () => {
-                window.cancelAnimationFrame(frame);
+                if (frame) {
+                    window.cancelAnimationFrame(frame);
+                }
 
                 if (timeout) {
                     window.clearTimeout(timeout);
@@ -71,11 +84,12 @@ const Rollup: React.FC<RollupProps> = ({
             if (valueRef && valueRef.current) {
                 const { current: element } = valueRef;
 
-                const a = element.getBoundingClientRect().height;
+                const { height } = element.getBoundingClientRect();
                 const rollupMemberLocation = dictionary
                     .findIndex((v) => v === value);
 
-                setShift(rollupMemberLocation * a);
+                setShift(rollupMemberLocation * height);
+                setHeight(height);
             }
         },
         [value],
@@ -90,6 +104,14 @@ const Rollup: React.FC<RollupProps> = ({
             visibleValue.current = value;
         },
         [value],
+    );
+
+    useEffect(
+        () => {
+            if (valueRef && valueRef.current) {
+                widthRef(valueRef.current);
+            }
+        },
     );
 
     return (
