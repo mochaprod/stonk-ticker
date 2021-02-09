@@ -20,6 +20,7 @@ const Ticker: React.FC<TickerProps> = ({
     dictionary,
     colors,
 }) => {
+    const initialRender = useRef(true);
     const [height, setHeight] = useState<number>(0);
     const rollups = useRef<HTMLDivElement[]>([]);
     const [currentWidths, setCurrentWidths] = useState<number[]>([]);
@@ -32,11 +33,17 @@ const Ticker: React.FC<TickerProps> = ({
 
     const transitionColors = colors || [];
 
+    // Sets the transition speed of animations to 0 if initially rendered value
+    // hasn't been updated yet.
+    const transitionSpeedZeroIfInitialRender = initialRender.current
+        ? 0
+        : (speed || 500);
+
     const tickerStyle: React.CSSProperties = {
         display: "flex",
         width: currentWidths.reduce((total, current) => total + current, 0),
         height,
-        transition: `width ${speed}ms ease-in-out`,
+        transition: `width ${transitionSpeedZeroIfInitialRender}ms ease-in-out`,
     };
 
     useEffect(
@@ -63,13 +70,19 @@ const Ticker: React.FC<TickerProps> = ({
         [valueFromProps],
     );
 
+    useEffect(() => {
+        if (initialRender.current && currentWidths.length) {
+            initialRender.current = false;
+        }
+    }, [currentWidths]);
+
     return (
         <div
             style={ tickerStyle }
         >
             { value.map((character, i) => {
                 if (!characterDictionary.includes(character)) {
-                    warnNonProduction(`Stonk Ticker: '${character}' is not included in the character dictionary.`);
+                    warnNonProduction(`[Stonk Ticker] '${character}' is not included in the character dictionary.`);
                 }
 
                 const constantIndex = constants
@@ -92,7 +105,7 @@ const Ticker: React.FC<TickerProps> = ({
                 const offsettedRollupStyle: React.CSSProperties = {
                     position: "absolute",
                     transform: `translate(${reducedWidth}px, 0px)`,
-                    transition: `transform ${speed}ms ease-in-out`,
+                    transition: `transform ${transitionSpeedZeroIfInitialRender}ms ease-in-out`,
                 };
 
                 const heightSetter = (height: number) => {
@@ -117,7 +130,7 @@ const Ticker: React.FC<TickerProps> = ({
                             setHeight={ heightSetter }
                             direction={ direction }
                             value={ character }
-                            speed={ speed || 500 }
+                            speed={ transitionSpeedZeroIfInitialRender }
                             dictionary={ characterDictionary }
                             transitionColors={ transitionColors }
                         />

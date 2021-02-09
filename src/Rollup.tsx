@@ -44,8 +44,8 @@ const Rollup: React.FC<RollupProps> = ({
         flexDirection: "column",
         position: "absolute",
         top: 0,
-        color: transitioning ? transitionColor : "inherit",
-        opacity: transitioning ? 1 : 0,
+        color: transitioning && speed > 0 ? transitionColor : "inherit",
+        opacity: transitioning && speed > 0 ? 1 : 0,
         userSelect: "none",
         transition: `transform ${speed}ms ease-in-out`,
     };
