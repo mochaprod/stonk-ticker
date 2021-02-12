@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import clsx from "clsx";
+import random from "random";
 
 import Ticker from "../../src/Ticker";
+import { Chart } from "./Chart";
 
 import { toMoneyString } from "../../src/money";
 
@@ -14,6 +16,7 @@ interface StonkPrice {
 
 const App: React.FC = () => {
     const [stockMode, setStockMode] = useState<boolean>(false);
+    const [priceHistory, setPriceHistory] = useState<number[]>([0]);
     const [price, setPrice] = useState<StonkPrice>({
         movement: "up",
         value: 0,
@@ -40,12 +43,15 @@ const App: React.FC = () => {
         if (stockMode) {
             const shuffle = () => {
                 setPrice(({ value: prev }) => {
-                    const priceChangeInterval = prev * 0.005;
+                    const priceChangeInterval = 0;
+                    const sd = prev * 0.005;
 
                     // Slightly more inclined to go up like STONKS
-                    const stockNextTick = Math.round(Math.random() * priceChangeInterval * 100) / 100 - priceChangeInterval / 2.25;
-                    const nextValue = prev + stockNextTick;
-
+                    const stockNextTick = random.normal(
+                        priceChangeInterval,
+                        sd,
+                    );
+                    const nextValue = prev + stockNextTick();
                     const movement = nextValue > prev ? "up" : "down";
 
                     return {
@@ -68,6 +74,16 @@ const App: React.FC = () => {
             }
         };
     }, [stockMode]);
+
+    useEffect(() => {
+        if (stockMode) {
+            setPriceHistory([price.value]);
+        }
+    }, [stockMode]);
+
+    useEffect(() => {
+        setPriceHistory((prev) => [...prev, price.value]);
+    }, [price]);
 
     useEffect(() => {
         if (!document) {
@@ -101,6 +117,7 @@ const App: React.FC = () => {
                 className={ styles.controls }
             >
                 <button
+                    className={ styles.bear }
                     onClick={ () => {
                         setPrice({
                             value: Math.floor(Math.random() * 1000),
@@ -111,6 +128,7 @@ const App: React.FC = () => {
                     Random Value
                 </button>
                 <button
+                    className={ styles.stonks }
                     onClick={ () => {
                         setPrice(({ value: prev }) => ({
                             value: prev * 2,
@@ -118,19 +136,22 @@ const App: React.FC = () => {
                         }));
                     } }
                 >
-                    Double My Money
+                    🚀
                 </button>
                 <button
+                    className={ styles.bull }
                     onClick={ () => setStockMode(!stockMode) }
                 >
-                    { stockMode ? "Close the exchange!" : "Let the stonks out!" }
+                    { stockMode ? "Automatic" : "Manual" }
                 </button>
                 <button
+                    className={ styles.stonks }
                     onClick={ tslaCalls }
                 >
-                    Buy $TSLA Calls
+                    📈
                 </button>
                 <button
+                    className={ styles.bear }
                     onClick={ bankruptcy }
                 >
                     Buy $LK
@@ -143,6 +164,12 @@ const App: React.FC = () => {
                     value={ toMoneyString(price.value) }
                     direction={ price.movement === "none" ? "up" : price.movement }
                     colors={ ["var(--g)", "var(--r)"] }
+                />
+            </div>
+            <div>
+                <Chart
+                    initialValue={ priceHistory[0] || 0 }
+                    data={ priceHistory }
                 />
             </div>
         </main>

@@ -1,8 +1,8 @@
 :root {
     --f: #161616;
     --b: #ffffff;
-    --g: #4fd42d;
-    --r: #db2525;
+    --g: rgb(0, 200, 5);
+    --r: rgb(255, 80, 0);
 }
 
 html {
@@ -27,5 +27,5 @@ body {
 
 body.stonks {
     --f: #ffffff;
-    --b: #080D0E;
+    --b: #000000;
 }
