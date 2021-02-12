@@ -1,0 +1,21 @@
+{
+  "name": "stonk-ticker",
+  "version": "1.0.0",
+  "description": "Easy stonk prices",
+  "main": "./lib/index.js",
+  "repository": {
+    "url": "https://github.com/TaskSquirrel/stonk-ticker"
+  },
+  "types": "./lib/index.d.ts",
+  "keywords": [
+    "react",
+    "robinhood",
+    "stocks",
+    "money"
+  ],
+  "author": "Ben Huang",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16"
+  }
+}

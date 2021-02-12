@@ -1,4 +1,4 @@
-function toMoneyString(numericValue: number) {
+function toMoneyString(numericValue: number): string {
     return numericValue.toLocaleString("en-US", {
         style: "currency",
         currency: "USD",

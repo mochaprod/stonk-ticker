@@ -9,7 +9,7 @@
 # testing
 /coverage
 
-lib/
+/lib/lib
 
 types/
 
