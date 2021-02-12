@@ -11,37 +11,61 @@
     min-height: 100vh;
 }
 
+button {
+    font-family: inherit;
+
+    color: inherit;
+    background: transparent;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    padding: 0.5rem 0.75rem;
+
+    transition: transform 200ms ease-in-out;
+
+    &.bull {
+        color: var(--g);
+        border: 1px solid var(--g);
+    }
+
+    &.bear {
+        color: var(--r);
+        border: 1px solid var(--r);
+    }
+}
+
 .controls {
     z-index: 1;
     position: absolute;
     top: 2rem;
 
     button {
-        font-family: inherit;
-        font-size: 150%;
-
-        color: #ffffff;
-        background-color: #067bc2;
-
-        border: none;
-        border-radius: 0.5rem;
-
-        padding: 0.75rem 1rem;
-
-        transition: transform 200ms ease-in-out;
-
-        &:active {
-            transform: translateY(5px);
-        }
+        font-size: 105%;
 
         &:not(:last-child) {
             margin-right: 1rem;
+        }
+
+        &.stonks {
+            font-size: 400%;
+            transition: transform 200ms ease-in-out;
+
+            &:hover {
+                transform: scale(1.5) rotate(10deg);
+            }
+
+            &:active {
+                transform: scale(1.2);
+            }
         }
     }
 }
 
 .ticker {
     font-size: 700%;
+
+    margin-bottom: 5rem;
 }
 
 .bezos {
