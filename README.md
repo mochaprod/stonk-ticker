@@ -24,7 +24,7 @@ function App() {
 
     useEffect(() => {
         const int = setInterval(() => {
-            const nextPriceDiff = Math.random() * 10 - 5;
+            const nextPriceDiff = Math.random() * 10;
 
             setValue(({ price: prevPrice }) => ({
                 price: prevPrice + nextPriceDiff,
@@ -38,6 +38,7 @@ function App() {
     return (
         <Ticker
             value={ toMoneyString(value.price) }
+            constantKeys={ ["-", "$", "."] }
             movement={ value.movement }
         />
     );
@@ -48,8 +49,8 @@ function App() {
 
 | Prop         | Type              |                                                                                                                    |
 | ------------ | ----------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `value`      | `string | number` | Display value                                                                                                      |
-| `direction`  | `"up" | "down"`   | Determines text color for text that changes                                                                        |
+| `value`      | `string` or `number` | Display value                                                                                                      |
+| `direction`  | `"up"` or `"down"`   | Determines text color for text that changes                                                                        |
 | `dictionary` | `string[]`        | The set of characters the ticker cycles through. Default dictionary covers characters for USD money representation |
-| `constants`  | `string[]`        | Characters that stay constant, but left-relative to the string (\$) for example in a USD string.                   |
+| `constantKeys`  | `string[]`        | Characters that should not animate between states. ($) for example for money. |
 | `colors`     | `string[]`        | `colors[0]` is the color of text for an `up` movement, and the `colors[1]` is the `down` color                |

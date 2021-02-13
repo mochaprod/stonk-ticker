@@ -1,6 +1,6 @@
 {
   "name": "stonk-ticker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Easy stonk prices",
   "main": "./lib/index.js",
   "repository": {
@@ -16,6 +16,6 @@
   "author": "Ben Huang",
   "license": "MIT",
   "peerDependencies": {
-    "react": "^16"
+    "react": ">=16"
   }
 }
